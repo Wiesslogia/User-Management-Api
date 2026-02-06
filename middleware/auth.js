@@ -1,8 +1,15 @@
-
+import { createUserSchema, updateUserSchema } from "../dtos/user.zod.js";
 
 export const checkAuth=(req,res,next)=>{
     // console.log("Auth checked");
-    // next();
+    // next();]
+    const body= req.body;
+    // const body= req.;
+    console.log(body)
+    const head=req.headers
+    console.log("req.headers")
+    console.log(head)
+
 
     const success = true;
     if(success){
@@ -77,3 +84,29 @@ export const tokenAuth = (req,res,next)=>{
     }
     next();
 }
+
+
+// export const validateZod=(schema)=>(req,res,next)=>{
+//     const result=schema.safeParse(req.body);
+//     if (result.success){
+//         next();
+//     }else{
+//         return res.status(400).json({
+//             message: "auth failed"
+//         })
+//     }
+// }
+
+export const validateZod = (schema) => (req, res, next) => {
+  const result = schema.safeParse(req.body);
+  console.log("result errors",result)
+  if (!result.success) {
+    return res.status(400).json({
+      success: false,
+      errors: result.error.message
+    });
+  }
+
+  req.body = result.data; // sanitized data
+  next();
+};
