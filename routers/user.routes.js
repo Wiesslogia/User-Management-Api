@@ -4,7 +4,9 @@ import{
     createUser,
     updateUser,
     // updateUser,
-    deleteUser
+    deleteUser,
+    activeusers,
+    updateUserbyemail
     // getUsersthatId
 } from '../controllers/user.controller.js';
 
@@ -17,11 +19,20 @@ import { createUserSchema, updateUserSchema } from "../dtos/user.zod.js";
 
 
 const router = express.Router();
-router.get("/",checkAuth, tokenAuth, getUsers);
-router.post("/", validateZod(createUserSchema), createUser);
-router.patch("/:id", validateUserId, updateUser);
-router.delete("/:id", validateUserId, deleteUser);
+router.get("/", getUsers);
+router.post("/", createUser);
+router.patch("/updatepass", updateUserbyemail);
+router.get("/active", activeusers);
+router.delete("/del", deleteUser);
+router.patch("/:id", updateUser);
+
 // router.get("/id", getUserById, getUsersthatId);
+// const router = express.Router();
+// router.get("/",checkAuth, tokenAuth, getUsers);
+// router.post("/", validateZod(createUserSchema), createUser);
+// router.patch("/:id", validateUserId, updateUser);
+// router.delete("/:id", validateUserId, deleteUser);
+// // router.get("/id", getUserById, getUsersthatId);
 
 
 export default router;
